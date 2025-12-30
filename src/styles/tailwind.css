@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -----------------------------
+   Custom fonts (from src/assets/fonts)
+   ----------------------------- */
+@font-face {
+  font-family: "Casko Luxury";
+  src: url("../assets/fonts/casko-luxury-demo.regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Orange Avenue";
+  src: url("../assets/fonts/orange-avenue-demo.regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ruby Ring";
+  src: url("../assets/fonts/ruby-ring-demo.condensed.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rooster";
+  src: url("../assets/fonts/rooster-personal-use.regular.ttf")
+    format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Briqusion";
+  src: url("../assets/fonts/briqusion.regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-primary: #002147; /* Navy */
+  --color-secondary: #d4af37; /* Gold */
+  --color-accent: #333333; /* Charcoal */
+}
+
+/* Simple helper utilities that mirror Tailwind usage for custom colors */
+.bg-primary {
+  background-color: var(--color-primary);
+}
+.text-primary {
+  color: var(--color-primary);
+}
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+.text-secondary {
+  color: var(--color-secondary);
+}
+.text-accent {
+  color: var(--color-accent);
+}
+
+body {
+  background-color: #080808;
+  color: #fff;
+}
+
+/* Luxury aesthetic base */
+@layer base {
+  html,
+  body {
+    font-family: "Rooster", system-ui, -apple-system, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Casko Luxury", "Orange Avenue", Georgia, serif;
+  }
+
+  .font-brand {
+    font-family: "Briqusion", "Rooster", system-ui, sans-serif;
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Custom Utilities for 3D Rotation */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
