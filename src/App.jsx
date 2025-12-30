@@ -48,7 +48,7 @@ const AnimatedRoutes = () => {
 function App() {
   return (
     <CartProvider>
-      <Router>
+      <Router basename="/looking-good-gator">
         <ScrollToTop />
         <div className="min-h-screen bg-[#f8f5f2] selection:bg-[#D4AF37] selection:text-[#0f172a] font-sans">
           <Navbar />
