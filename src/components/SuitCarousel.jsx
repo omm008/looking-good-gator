@@ -11,42 +11,42 @@ const suits = [
   {
     id: 1,
     name: "Midnight Black",
-    src: "/suits/black.png",
+    src: "store/suits/black.png",
     color: "#000000",
     desc: "The timeless classic.",
   },
   {
     id: 2,
     name: "Royal Navy",
-    src: "/suits/navy.png",
+    src: "store/suits/navy.png",
     color: "#1e3a8a",
     desc: "For the boardroom.",
   },
   {
     id: 3,
     name: "Charcoal Grey",
-    src: "/suits/gray.png",
+    src: "store/suits/gray.png",
     color: "#374151",
     desc: "Understated elegance.",
   },
   {
     id: 4,
     name: "Royal Maroon",
-    src: "/suits/maroon.png",
+    src: "store/suits/maroon.png",
     color: "#561C24",
     desc: "Bold and sophisticated.",
   },
   {
     id: 5,
     name: "Deep Green",
-    src: "/suits/green.png",
+    src: "store/suits/green.png",
     color: "#1C352D",
     desc: "Natural authority.",
   },
   {
     id: 6,
     name: "Classic Brown",
-    src: "/suits/brown.png",
+    src: "store/suits/brown.png",
     color: "#B87C4C",
     desc: "Vintage charm.",
   },
@@ -162,7 +162,7 @@ export default function SuitCarousel() {
           >
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] -z-10 bg-white/40 blur-3xl rounded-full" />
             <img
-              src={activeSuit.src}
+              src={getImg(activeSuit.src)}
               alt={activeSuit.name}
               className="h-[400px] object-contain drop-shadow-2xl relative z-10"
             />
@@ -205,7 +205,7 @@ export default function SuitCarousel() {
 
               {/* Suit Image */}
               <img
-                src={suit.src}
+                src={getImg(suit.src)}
                 alt={suit.name}
                 className="h-[500px] w-auto object-contain drop-shadow-2xl"
               />
