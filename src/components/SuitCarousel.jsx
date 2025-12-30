@@ -2,51 +2,53 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+// 1. Helper Function
 const getImg = (path) => {
   const cleanPath = path.startsWith("/") ? path.slice(1) : path;
   return `${import.meta.env.BASE_URL}${cleanPath}`;
 };
 
+// 2. Data matches your public/suits/ folder
 const suits = [
   {
     id: 1,
     name: "Midnight Black",
-    src: "store/suits/black.png",
+    src: "suits/black.png", // Matches public/suits/black.png
     color: "#000000",
     desc: "The timeless classic.",
   },
   {
     id: 2,
     name: "Royal Navy",
-    src: "store/suits/navy.png",
+    src: "suits/navy.png", // Matches public/suits/navy.png
     color: "#1e3a8a",
     desc: "For the boardroom.",
   },
   {
     id: 3,
     name: "Charcoal Grey",
-    src: "store/suits/gray.png",
+    src: "suits/gray.png", // Matches public/suits/gray.png
     color: "#374151",
     desc: "Understated elegance.",
   },
   {
     id: 4,
     name: "Royal Maroon",
-    src: "store/suits/maroon.png",
+    src: "suits/maroon.png", // Matches public/suits/maroon.png
     color: "#561C24",
     desc: "Bold and sophisticated.",
   },
   {
     id: 5,
     name: "Deep Green",
-    src: "store/suits/green.png",
+    src: "suits/green.png", // Matches public/suits/green.png
     color: "#1C352D",
     desc: "Natural authority.",
   },
   {
     id: 6,
     name: "Classic Brown",
-    src: "store/suits/brown.png",
+    src: "suits/brown.png", // Matches public/suits/brown.png
     color: "#B87C4C",
     desc: "Vintage charm.",
   },
@@ -54,13 +56,10 @@ const suits = [
 
 export default function SuitCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState(0); // For Mobile 3D direction
+  const [direction, setDirection] = useState(0);
 
-  // --- LOGIC: Handle Navigation ---
   const navigate = (newIndex) => {
     let targetIndex = newIndex;
-
-    // Handle wrapping
     if (newIndex < 0) targetIndex = suits.length - 1;
     else if (newIndex >= suits.length) targetIndex = 0;
 
@@ -68,63 +67,31 @@ export default function SuitCarousel() {
     setActiveIndex(targetIndex);
   };
 
-  // --- LOGIC: Determine Visual Position for Desktop ---
-  // Returns: 'center', 'left', 'right', or 'hidden'
   const getSuitPosition = (index) => {
     if (index === activeIndex) return "center";
-
-    // Calculate circular neighbors
     const prevIndex = (activeIndex - 1 + suits.length) % suits.length;
     const nextIndex = (activeIndex + 1) % suits.length;
-
     if (index === prevIndex) return "left";
     if (index === nextIndex) return "right";
     return "hidden";
   };
 
-  // --- ANIMATION VARIANTS ---
   const desktopVariants = {
-    center: {
-      x: "0%",
-      scale: 1.2,
-      opacity: 1,
-      zIndex: 30,
-      filter: "grayscale(0%)",
-    },
-    left: {
-      x: "-60%",
-      scale: 0.9,
-      opacity: 0.6,
-      zIndex: 10,
-      filter: "grayscale(30%)",
-    }, // 90% scale, 60% opacity
-    right: {
-      x: "60%",
-      scale: 0.9,
-      opacity: 0.6,
-      zIndex: 10,
-      filter: "grayscale(30%)",
-    }, // 90% scale, 60% opacity
-    hidden: {
-      x: "0%",
-      scale: 0.5,
-      opacity: 0,
-      zIndex: 0,
-      filter: "grayscale(100%)",
-    },
+    center: { x: "0%", scale: 1.2, opacity: 1, zIndex: 30, filter: "grayscale(0%)" },
+    left: { x: "-60%", scale: 0.9, opacity: 0.6, zIndex: 10, filter: "grayscale(30%)" },
+    right: { x: "60%", scale: 0.9, opacity: 0.6, zIndex: 10, filter: "grayscale(30%)" },
+    hidden: { x: "0%", scale: 0.5, opacity: 0, zIndex: 0, filter: "grayscale(100%)" },
   };
 
   const activeSuit = suits[activeIndex];
 
   return (
     <div className="w-full bg-[#f8f5f2] py-16 overflow-hidden select-none">
-      {/* Header */}
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-end mb-8 md:mb-12">
         <div>
           <h3 className="text-[#0f172a] font-serif text-3xl md:text-5xl font-bold">
             The Perfect Shade
           </h3>
-
           <div className="w-12 h-1 bg-[#D4AF37] mt-2"></div>
         </div>
         <div className="text-[#D4AF37] font-mono text-xl hidden md:block">
@@ -133,16 +100,11 @@ export default function SuitCarousel() {
         </div>
       </div>
 
-      {/* =========================================
-          MOBILE VIEW (< 768px) -> 3D ROTATION
-          (Kept exactly as you liked it)
-         ========================================= */}
+      {/* MOBILE VIEW */}
       <div className="md:hidden relative h-[450px] flex items-center justify-center perspective-1000">
         <div
           className="absolute inset-0 flex items-center justify-center"
-          style={{
-            backgroundImage: `radial-gradient(circle at center, ${activeSuit.color}20 0%, transparent 70%)`,
-          }}
+          style={{ backgroundImage: `radial-gradient(circle at center, ${activeSuit.color}20 0%, transparent 70%)` }}
         />
 
         <AnimatePresence mode="popLayout" custom={direction}>
@@ -151,16 +113,13 @@ export default function SuitCarousel() {
             custom={direction}
             initial={{ rotateY: direction * 90, opacity: 0, scale: 0.8 }}
             animate={{ rotateY: 0, opacity: 1, scale: 1, zIndex: 1 }}
-            exit={{
-              rotateY: direction * -90,
-              opacity: 0,
-              scale: 0.8,
-              zIndex: 0,
-            }}
+            exit={{ rotateY: direction * -90, opacity: 0, scale: 0.8, zIndex: 0 }}
             transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
             className="absolute w-full flex justify-center items-center"
           >
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] -z-10 bg-white/40 blur-3xl rounded-full" />
+            
+            {/* 👇 FIX 1: Added getImg() here */}
             <img
               src={getImg(activeSuit.src)}
               alt={activeSuit.name}
@@ -176,11 +135,8 @@ export default function SuitCarousel() {
         </div>
       </div>
 
-      {/* =========================================
-          DESKTOP VIEW (>= 768px) -> SLIDING CAROUSEL
-         ========================================= */}
+      {/* DESKTOP VIEW */}
       <div className="hidden md:flex relative h-[600px] items-center justify-center max-w-7xl mx-auto">
-        {/* Render ALL suits, but use variants to position them */}
         {suits.map((suit, index) => {
           const position = getSuitPosition(index);
           const isClickable = position === "left" || position === "right";
@@ -191,26 +147,24 @@ export default function SuitCarousel() {
               initial={false}
               animate={position}
               variants={desktopVariants}
-              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }} // Smooth luxurious ease
+              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
               onClick={() => isClickable && navigate(index)}
               className={`absolute flex flex-col items-center justify-center ${
                 isClickable ? "cursor-pointer" : ""
               }`}
-              style={{ width: "40%" }} // Base width for calculation
+              style={{ width: "40%" }}
             >
-              {/* Center Suit Glow */}
               {position === "center" && (
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[#D4AF37]/10 rounded-full blur-[80px] -z-10"></div>
               )}
 
-              {/* Suit Image */}
+              {/* 👇 FIX 2: Added getImg() here */}
               <img
                 src={getImg(suit.src)}
                 alt={suit.name}
                 className="h-[500px] w-auto object-contain drop-shadow-2xl"
               />
 
-              {/* Text only visible for center item */}
               <motion.div
                 animate={{
                   opacity: position === "center" ? 1 : 0,
@@ -230,22 +184,14 @@ export default function SuitCarousel() {
           );
         })}
 
-        {/* Navigation Arrows */}
-        <button
-          onClick={() => navigate(activeIndex - 1)}
-          className="absolute left-8 top-1/2 -translate-y-1/2 p-4 rounded-full border border-[#0f172a]/10 hover:bg-[#0f172a] hover:text-[#D4AF37] transition-all duration-300 text-[#0f172a] z-50 bg-white/50 backdrop-blur-sm"
-        >
+        <button onClick={() => navigate(activeIndex - 1)} className="absolute left-8 top-1/2 -translate-y-1/2 p-4 rounded-full border border-[#0f172a]/10 hover:bg-[#0f172a] hover:text-[#D4AF37] transition-all duration-300 text-[#0f172a] z-50 bg-white/50 backdrop-blur-sm">
           <ChevronLeft size={32} />
         </button>
-        <button
-          onClick={() => navigate(activeIndex + 1)}
-          className="absolute right-8 top-1/2 -translate-y-1/2 p-4 rounded-full border border-[#0f172a]/10 hover:bg-[#0f172a] hover:text-[#D4AF37] transition-all duration-300 text-[#0f172a] z-50 bg-white/50 backdrop-blur-sm"
-        >
+        <button onClick={() => navigate(activeIndex + 1)} className="absolute right-8 top-1/2 -translate-y-1/2 p-4 rounded-full border border-[#0f172a]/10 hover:bg-[#0f172a] hover:text-[#D4AF37] transition-all duration-300 text-[#0f172a] z-50 bg-white/50 backdrop-blur-sm">
           <ChevronRight size={32} />
         </button>
       </div>
 
-      {/* Color Dots */}
       <div className="flex justify-center flex-wrap gap-2 mt-12 md:mt-24 px-4 z-30 relative">
         {suits.map((suit, index) => (
           <button
@@ -257,10 +203,7 @@ export default function SuitCarousel() {
                 : "border-gray-300 opacity-70 hover:opacity-100 hover:scale-105 hover:border-[#D4AF37]"
             }`}
           >
-            <div
-              className="w-full h-full rounded-full shadow-inner"
-              style={{ backgroundColor: suit.color }}
-            />
+            <div className="w-full h-full rounded-full shadow-inner" style={{ backgroundColor: suit.color }} />
             {index === activeIndex && (
               <motion.div
                 layoutId="activeColor"
